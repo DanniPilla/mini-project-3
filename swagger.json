@@ -1,0 +1,75 @@
+{
+"swagger": "2.0",
+"info": {
+"version": "1.0.0",
+"title": "Mini Project 3",
+"description": "My Project Application API",
+"license": {
+"name": "MIT",
+"url": "https://opensource.org/licenses/MIT"
+}
+},
+"host": "localhost:8081",
+"basePath": "/api",
+"tags": [
+{
+"name": "Fashion-DB",
+"description": "API for a fashion database"
+}
+],
+"schemes": ["http"],
+"consumes": ["application/json"],
+"produces": ["application/json"],
+"paths": {
+"/users/all-orders/{id}": {
+"get": {
+"tags": [
+"Fashion-DB"
+],
+"summary": "get orders for a user",
+"operationId": "getUserOrders",
+"parameters": [
+{
+ "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "The ID of the user whose orders you want to retrieve (currently only have 13 and 14 seeded)"
+}
+],
+   "responses": {
+          "200": {
+            "description": "A list of orders for the specified user",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "type": "integer",
+                    "example": 101
+                  },
+                  "totalAmount": {
+                    "type": "number",
+                    "example": 150.75
+                  },
+                  "orderDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2024-12-01T10:00:00Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

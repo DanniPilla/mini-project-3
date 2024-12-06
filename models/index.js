@@ -6,13 +6,25 @@ const Product = require("./product");
 const Category = require("./category");
 const Shipment = require("./shipment");
 
-User.hasMany(Order, { foreignKey: "user_id" });
+User.hasMany(Order, {
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 Order.belongsTo(User, { foreignKey: "user_id" });
 
-Order.hasMany(OrderItem, { foreignKey: "order_id" });
+Order.hasMany(OrderItem, {
+  foreignKey: "order_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 OrderItem.belongsTo(Order, { foreignKey: "order_id" });
 
-Order.hasMany(Shipment, { foreignKey: "order_id" });
+Order.hasMany(Shipment, {
+  foreignKey: "order_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 Shipment.belongsTo(Order, { foreignKey: "order_id" });
 
 Product.hasMany(OrderItem, { foreignKey: "product_id" });

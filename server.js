@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
+const swaggerUi = require("swagger-ui-express");
+swaggerDocument = require("./swagger.json");
 
 let dbConnect = require("./lib/dbConnect");
 let userRoutes = require("./routes/userRoutes");
@@ -17,6 +19,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/order-items", orderItemRoutes);
 app.use("/api/shipments", shipmentRoutes);
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to my mySQL application." });

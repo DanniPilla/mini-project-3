@@ -6,6 +6,10 @@ router.get("/", (req, res) => {
   Controllers.shipmentController.getShipments(res);
 });
 
+router.get("/pending", (req, res) => {
+  Controllers.shipmentController.pendingShipments(req, res);
+});
+
 router.post("/create", (req, res) => {
   Controllers.shipmentController.createShipment(req.body, res);
 });

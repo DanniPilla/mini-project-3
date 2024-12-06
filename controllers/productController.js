@@ -1,6 +1,6 @@
 "use strict";
 const Models = require("../models");
-// finds all products  in DB, then sends array as response
+
 const getProducts = (res) => {
   Models.Product.findAll({})
     .then((data) => {
@@ -11,7 +11,23 @@ const getProducts = (res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-// uses JSON from request body to create new user in DB
+
+// find stock amount of particular products
+
+const productQuantity = (req, res) => {
+  Models.Product.findOne({
+    where: { name: req.params.name },
+    attributes: ["name", "stock_quantity"],
+  })
+    .then((data) => {
+      res.send({ result: 200, data });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({ result: 500, error: err.message });
+    });
+};
+
 const createProduct = (data, res) => {
   Models.Product.create(data)
     .then((data) => {
@@ -36,7 +52,7 @@ const updateProduct = (req, res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-// deletes user matching ID from params
+
 const deleteProduct = (req, res) => {
   Models.Product.destroy({ where: { id: req.params.id } })
     .then((data) => {
@@ -52,4 +68,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  productQuantity,
 };

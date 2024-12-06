@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require("sequelize");
 let dbConnect = require("../lib/dbConnect");
-const sequelizeInstance = dbConnect.Sequelize;
+const sequelizeInstance = dbConnect;
 class Shipment extends Model {}
 
 Shipment.init(
@@ -20,11 +20,7 @@ Shipment.init(
         key: "id",
       },
     },
-    shipmentDate: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      required: true,
-    },
+
     email: {
       type: DataTypes.STRING,
       allowNull: false,

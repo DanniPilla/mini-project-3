@@ -1,6 +1,6 @@
 "use strict";
 const Models = require("../models");
-// finds all products  in DB, then sends array as response
+
 const getOrders = (res) => {
   Models.Order.findAll({})
     .then((data) => {
@@ -11,7 +11,7 @@ const getOrders = (res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-// uses JSON from request body to create new user in DB
+
 const createOrder = (data, res) => {
   Models.Order.create(data)
     .then((data) => {
@@ -36,7 +36,7 @@ const updateOrder = (req, res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-// deletes user matching ID from params
+
 const deleteOrder = (req, res) => {
   Models.Order.destroy({ where: { id: req.params.id } })
     .then((data) => {

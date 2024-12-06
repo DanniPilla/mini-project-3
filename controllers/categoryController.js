@@ -1,7 +1,7 @@
 "use strict";
 const Models = require("../models");
-// finds all products  in DB, then sends array as response
-const getCategories = (res) => {
+
+const getCategories = (req, res) => {
   Models.Category.findAll({})
     .then((data) => {
       res.send({ result: 200, data: data });
@@ -11,7 +11,21 @@ const getCategories = (res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-// uses JSON from request body to create new user in DB
+
+// find all products under a specific category
+
+const productsByCategory = (req, res) => {
+  Models.Category.findAll({
+    where: { name: req.params.name },
+    include: Models.Product,
+  })
+    .then((data) => res.send({ result: 200, data: data }))
+    .catch((err) => {
+      console.log(err);
+      res.send({ result: 500, error: err.message });
+    });
+};
+
 const createCategory = (data, res) => {
   Models.Category.create(data)
     .then((data) => {
@@ -36,7 +50,7 @@ const updateCategory = (req, res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-// deletes user matching ID from params
+
 const deleteCategory = (req, res) => {
   Models.Category.destroy({ where: { id: req.params.id } })
     .then((data) => {
@@ -52,4 +66,5 @@ module.exports = {
   createCategory,
   updateCategory,
   deleteCategory,
+  productsByCategory,
 };

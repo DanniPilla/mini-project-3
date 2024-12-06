@@ -3,19 +3,23 @@ const router = express.Router();
 const Controllers = require("../controllers");
 
 router.get("/", (req, res) => {
-  Controllers.userController.getCategories(res);
+  Controllers.categoryController.getCategories(res);
+});
+
+router.get("/:name/products", (req, res) => {
+  Controllers.categoryController.productsByCategory(req, res);
 });
 
 router.post("/create", (req, res) => {
-  Controllers.userController.createCategory(req.body, res);
+  Controllers.categoryController.createCategory(req.body, res);
 });
 
 router.put("/:id", (req, res) => {
-  Controllers.userController.updateCategory(req, res);
+  Controllers.categoryController.updateCategory(req, res);
 });
 
 router.delete("/:id", (req, res) => {
-  Controllers.userController.deleteCategory(req, res);
+  Controllers.categoryController.deleteCategory(req, res);
 });
 
 module.exports = router;

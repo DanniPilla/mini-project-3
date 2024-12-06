@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require("sequelize");
 let dbConnect = require("../lib/dbConnect");
-const sequelizeInstance = dbConnect.Sequelize;
+const sequelizeInstance = dbConnect;
 class Product extends Model {}
 
 Product.init(

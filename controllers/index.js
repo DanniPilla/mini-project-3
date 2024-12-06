@@ -5,4 +5,5 @@ module.exports = {
   orderItemController: require("./orderItemController"),
   productController: require("./productController"),
   shipmentController: require("./shipmentController"),
+  findAllOrdersController: require("./findAllOrdersController"),
 };

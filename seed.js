@@ -109,17 +109,18 @@ async function seed() {
 
     const shipments = [
       {
-        order_id: 1,
-        shipmentDate: new Date("2024-12-01"),
-        email: "email@.com",
+        order_id: orderInstances[0].id,
+        shipment_date: new Date("2024-12-01"),
+        email: "noduplicatesgirl@.com",
         address: "Tokyo Dome",
         carrier: "AusPost",
         tracking_number: "track123",
         delivery_date: new Date("2024-12-01"),
       },
       {
-        order_id: 2,
-        shipmentDate: new Date("2024-12-02"),
+        order_id: orderInstances[1].id,
+        shipment_date: new Date("2024-12-02"),
+        email: "uniqueemails@.com",
         address: "Osaka Castle",
         carrier: "FedEx",
         tracking_number: "track456",
