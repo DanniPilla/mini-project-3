@@ -12,20 +12,44 @@ async function seed() {
   try {
     const users = [
       {
-        firstName: "Danni",
-        lastName: "Pilla",
-        email: "email@.com",
-        password: "123",
-        address: "Tokyo Dome",
-        phone: "1234556",
+        firstName: "Alice",
+        lastName: "Johnson",
+        email: "alice.johnson@example.com",
+        password: "password1",
+        address: "123 Maple Street",
+        phone: "1234567890",
       },
       {
-        firstName: "Alphonse",
-        lastName: "Pilla",
-        email: "email12@.com",
-        password: "12345",
-        address: "London",
-        phone: "12345567",
+        firstName: "Bob",
+        lastName: "Smith",
+        email: "bob.smith@example.com",
+        password: "password2",
+        address: "456 Oak Avenue",
+        phone: "0987654321",
+      },
+      {
+        firstName: "Charlie",
+        lastName: "Brown",
+        email: "charlie.brown@example.com",
+        password: "password3",
+        address: "789 Pine Lane",
+        phone: "1122334455",
+      },
+      {
+        firstName: "Daisy",
+        lastName: "Taylor",
+        email: "daisy.taylor@example.com",
+        password: "password4",
+        address: "135 Elm Street",
+        phone: "5566778899",
+      },
+      {
+        firstName: "Evan",
+        lastName: "Williams",
+        email: "evan.williams@example.com",
+        password: "password5",
+        address: "246 Cedar Road",
+        phone: "6677889900",
       },
     ];
     const userInstances = await User.bulkCreate(users, {
@@ -36,12 +60,12 @@ async function seed() {
 
     const categories = [
       {
-        name: "Tops",
-        description: "Varying upper body apparel",
+        name: "Shoes",
+        description: "Footwear for all occasions",
       },
       {
-        name: "Dresses",
-        description: "Varying styles of a one-piece garment",
+        name: "Accessories",
+        description: "Bags, jewelry, and other fashion items",
       },
     ];
     const categoryInstances = await Category.bulkCreate(categories, {
@@ -52,17 +76,38 @@ async function seed() {
 
     const products = [
       {
-        name: "Gigi shirt",
-        description: "Shirt with a bow",
+        name: "Classic Sneakers",
+        description: "Comfortable white sneakers",
+        price: 75,
+        stock_quantity: 150,
+        category_id: categoryInstances[0].id,
+      },
+      {
+        name: "Leather Handbag",
+        description: "Elegant black leather handbag",
+        price: 120,
+        stock_quantity: 100,
+        category_id: categoryInstances[1].id,
+      },
+      {
+        name: "Gold Earrings",
+        description: "Simple and stylish gold earrings",
         price: 50,
+        stock_quantity: 50,
+        category_id: categoryInstances[1].id,
+      },
+      {
+        name: "Running Shoes",
+        description: "Lightweight shoes for running",
+        price: 90,
         stock_quantity: 200,
         category_id: categoryInstances[0].id,
       },
       {
-        name: "Layla dress",
-        description: "full length dress with embroidered flowers",
-        price: 150,
-        stock_quantity: 200,
+        name: "Travel Backpack",
+        description: "Spacious and durable backpack",
+        price: 85,
+        stock_quantity: 75,
         category_id: categoryInstances[1].id,
       },
     ];
@@ -70,32 +115,47 @@ async function seed() {
       validate: true,
       transaction,
     });
-    console.log("products seeded");
+    console.log("Products seeded");
 
     const orders = [
       {
         user_id: userInstances[0].id,
         order_date: new Date(),
-        total_amount: 200,
+        total_amount: 145,
       },
       {
         user_id: userInstances[1].id,
         order_date: new Date(),
-        total_amount: 200,
+        total_amount: 75,
+      },
+      {
+        user_id: userInstances[2].id,
+        order_date: new Date(),
+        total_amount: 120,
+      },
+      {
+        user_id: userInstances[3].id,
+        order_date: new Date(),
+        total_amount: 90,
+      },
+      {
+        user_id: userInstances[4].id,
+        order_date: new Date(),
+        total_amount: 50,
       },
     ];
     const orderInstances = await Order.bulkCreate(orders, {
       validate: true,
       transaction,
     });
-    console.log("orders seeded");
+    console.log("Orders seeded");
 
     const orderItems = [
       {
         order_id: orderInstances[0].id,
         product_id: productInstances[0].id,
-        quantity: 1,
-        price: productInstances[0].price,
+        quantity: 2,
+        price: productInstances[0].price * 2,
       },
       {
         order_id: orderInstances[1].id,
@@ -103,33 +163,77 @@ async function seed() {
         quantity: 1,
         price: productInstances[1].price,
       },
+      {
+        order_id: orderInstances[2].id,
+        product_id: productInstances[2].id,
+        quantity: 3,
+        price: productInstances[2].price * 3,
+      },
+      {
+        order_id: orderInstances[3].id,
+        product_id: productInstances[3].id,
+        quantity: 1,
+        price: productInstances[3].price,
+      },
+      {
+        order_id: orderInstances[4].id,
+        product_id: productInstances[4].id,
+        quantity: 1,
+        price: productInstances[4].price,
+      },
     ];
     await OrderItem.bulkCreate(orderItems, { validate: true, transaction });
-    console.log("order items seeded");
+    console.log("Order items seeded");
 
     const shipments = [
       {
         order_id: orderInstances[0].id,
-        shipment_date: new Date("2024-12-01"),
-        email: "noduplicatesgirl@.com",
-        address: "Tokyo Dome",
-        carrier: "AusPost",
-        tracking_number: "track123",
-        delivery_date: new Date("2024-12-01"),
+        shipment_date: new Date("2024-12-05"),
+        email: "alice.johnson@example.com",
+        address: "123 Maple Street",
+        carrier: "FedEx",
+        tracking_number: "track001",
+        delivery_date: new Date("2024-12-10"),
       },
       {
         order_id: orderInstances[1].id,
-        shipment_date: new Date("2024-12-02"),
-        email: "uniqueemails@.com",
-        address: "Osaka Castle",
+        shipment_date: new Date("2024-12-06"),
+        email: "bob.smith@example.com",
+        address: "456 Oak Avenue",
+        carrier: "UPS",
+        tracking_number: "track002",
+        delivery_date: new Date("2024-12-12"),
+      },
+      {
+        order_id: orderInstances[2].id,
+        shipment_date: new Date("2024-12-07"),
+        email: "charlie.brown@example.com",
+        address: "789 Pine Lane",
+        carrier: "DHL",
+        tracking_number: "track003",
+        delivery_date: new Date("2024-12-15"),
+      },
+      {
+        order_id: orderInstances[3].id,
+        shipment_date: new Date("2024-12-08"),
+        email: "daisy.taylor@example.com",
+        address: "135 Elm Street",
         carrier: "FedEx",
-        tracking_number: "track456",
-        status: "In Transit",
-        delivery_date: null,
+        tracking_number: "track004",
+        delivery_date: new Date("2024-12-14"),
+      },
+      {
+        order_id: orderInstances[4].id,
+        shipment_date: new Date("2024-12-09"),
+        email: "evan.williams@example.com",
+        address: "246 Cedar Road",
+        carrier: "USPS",
+        tracking_number: "track005",
+        delivery_date: new Date("2024-12-16"),
       },
     ];
     await Shipment.bulkCreate(shipments, { validate: true, transaction });
-    console.log("shipments seeded");
+    console.log("Shipments seeded");
 
     await transaction.commit();
     console.log("Dummy data seeded successfully");
@@ -140,4 +244,5 @@ async function seed() {
     await dbConnect.close();
   }
 }
+
 seed();

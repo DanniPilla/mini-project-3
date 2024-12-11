@@ -14,6 +14,13 @@ router.post("/create", (req, res) => {
   Controllers.shipmentController.createShipment(req.body, res);
 });
 
+router.put("/:id/status", (req, res) => {
+  const { id } = req.params;
+  const { deliveryStatus } = req.body;
+
+  Controllers.shipmentController.updateShipmentStatus(id, deliveryStatus, res);
+});
+
 router.put("/:id", (req, res) => {
   Controllers.shipmentController.updateShipment(req, res);
 });

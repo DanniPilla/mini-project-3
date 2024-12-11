@@ -1,6 +1,6 @@
 "use strict";
 const Models = require("../models");
-// finds all users in DB, then sends array as response
+
 const getShipments = (res) => {
   Models.Shipment.findAll({})
     .then((data) => {
@@ -24,7 +24,7 @@ const pendingShipments = (req, res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-// uses JSON from request body to create new user in DB
+
 const createShipment = (data, res) => {
   Models.Shipment.create(data)
     .then((data) => {
@@ -49,7 +49,39 @@ const updateShipment = (req, res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-// deletes user matching ID from params
+
+// if shipment status delivered, it will automatically update order to inactive
+
+const updateShipmentStatus = async (shipmentId, deliveryStatus, res) => {
+  try {
+    const shipment = await Models.Shipment.findOne({
+      where: { id: shipmentId },
+    });
+
+    if (!shipment) {
+      return res.status(404).send({ result: 404, error: "Shipment not found" });
+    }
+
+    shipment.status = deliveryStatus;
+    await shipment.save();
+
+    if (deliveryStatus === "delivered") {
+      const order = await Models.Order.findOne({
+        where: { id: shipment.order_id },
+      });
+      if (order) {
+        order.active = false;
+        await order.save();
+      }
+    }
+
+    res.status(200).send({ result: 200, data: shipment });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ result: 500, error: err.message });
+  }
+};
+
 const deleteShipment = (req, res) => {
   Models.Shipment.destroy({ where: { id: req.params.id } })
     .then((data) => {
@@ -66,4 +98,5 @@ module.exports = {
   updateShipment,
   deleteShipment,
   pendingShipments,
+  updateShipmentStatus,
 };

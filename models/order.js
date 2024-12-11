@@ -31,6 +31,11 @@ Order.init(
       allowNull: false,
       required: true,
     },
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
   },
   {
     sequelize: sequelizeInstance,

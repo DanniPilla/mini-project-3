@@ -70,6 +70,80 @@
           }
         }
       }
+    },
+     "/users/create": {
+    "post": {
+      "tags": [
+        "Fashion-DB"
+      ],
+      "summary": "Create a new user",
+      "operationId": "createUser",
+      "parameters": [
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "description": "User object that needs to be added to the database",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "Jane"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Doe"
+              },
+              "email":{
+                "type":"string",
+                "example":"someEmail@email.com"
+              },
+              "password": {
+                "type": "string",
+                "example": "securepassword123"
+              },
+              "phone":{
+                "type":"string",
+                "example":"0412345678"
+              },
+              "address":{
+                "type":"string",
+                "example":"123 John lane, Johnville, 1111"
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "User successfully created",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "integer",
+                "example": 15
+              },
+              "username": {
+                "type": "string",
+                "example": "fashionista123"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid input"
+        },
+        "500": {
+          "description": "Internal server error"
+        }
+      }
     }
   }
+
+     
+  }
+
+  
 }
