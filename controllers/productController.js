@@ -28,6 +28,29 @@ const productQuantity = (req, res) => {
     });
 };
 
+// find how much each product has been ordered
+
+const getProductOrderCount = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const orderCount = await Models.OrderItem.count({
+      where: { product_id: productId },
+    });
+    console.log("Product ID:", productId);
+    res.send({
+      result: 200,
+      productId: productId,
+      orderCount: orderCount,
+    });
+    console.log("Order Count Query Result:", orderCount);
+  } catch (err) {
+    res.status({
+      result: 500,
+      error: err.message,
+    });
+  }
+};
+
 const createProduct = (data, res) => {
   Models.Product.create(data)
     .then((data) => {
@@ -69,4 +92,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   productQuantity,
+  getProductOrderCount,
 };

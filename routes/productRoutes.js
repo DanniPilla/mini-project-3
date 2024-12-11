@@ -10,6 +10,10 @@ router.get("/quantity/:name", (req, res) => {
   Controllers.productController.productQuantity(req, res);
 });
 
+router.get("/ordercount/:id", (req, res) => {
+  Controllers.productController.getProductOrderCount(req, res);
+});
+
 router.post("/create", (req, res) => {
   Controllers.productController.createProduct(req.body, res);
 });
