@@ -36,18 +36,38 @@ const createShipment = (data, res) => {
     });
 };
 
-const updateShipment = (req, res) => {
-  Models.Shipment.update(req.body, {
-    where: { id: req.params.id },
-    returning: true,
-  })
-    .then((data) => {
-      res.send({ result: 200, data: data });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send({ result: 500, error: err.message });
+const updateShipment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { carrier, tracking_number, shipped_date } = req.body;
+
+    const shipment = await Models.Shipment.findOne({ where: { id } });
+
+    if (!shipment) {
+      return res.status(404).send({
+        result: 404,
+        error: "Shipment not found",
+      });
+    }
+
+    await shipment.update({
+      carrier,
+      tracking_number,
+      shipped_date,
     });
+
+    res.status(200).send({
+      result: 200,
+      message: "Shipment details updated successfully",
+      data: shipment,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      result: 500,
+      error: err.message,
+    });
+  }
 };
 
 // if shipment status delivered, it will automatically update order to inactive

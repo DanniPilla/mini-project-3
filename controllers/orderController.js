@@ -1,4 +1,5 @@
 "use strict";
+const sequelize = require("../lib/dbConnect");
 const Models = require("../models");
 
 const getOrders = (res) => {
@@ -37,6 +38,24 @@ const updateOrder = (req, res) => {
     });
 };
 
+const getTotalRevenue = async (req, res) => {
+  try {
+    const totalRevenue = await Models.Order.findOne({
+      attributes: [
+        [sequelize.fn("SUM", sequelize.col("total_amount")), "totalRevenue"],
+      ],
+    });
+
+    res.status(200).send({
+      result: 200,
+      data: totalRevenue,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ result: 500, error: err.message });
+  }
+};
+
 // Constraints in place so an order cannot be deleted if it has been shipped or delivered
 
 const deleteOrder = async (req, res) => {
@@ -70,4 +89,5 @@ module.exports = {
   createOrder,
   updateOrder,
   deleteOrder,
+  getTotalRevenue,
 };

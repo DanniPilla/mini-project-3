@@ -1,43 +1,45 @@
 {
-"swagger": "2.0",
-"info": {
-"version": "1.0.0",
-"title": "Mini Project 3",
-"description": "My Project Application API",
-"license": {
-"name": "MIT",
-"url": "https://opensource.org/licenses/MIT"
-}
-},
-"host": "localhost:8081",
-"basePath": "/api",
-"tags": [
-{
-"name": "Fashion-DB",
-"description": "API for a fashion database"
-}
-],
-"schemes": ["http"],
-"consumes": ["application/json"],
-"produces": ["application/json"],
-"paths": {
-"/users/all-orders/{id}": {
-"get": {
-"tags": [
-"Fashion-DB"
-],
-"summary": "get orders for a user",
-"operationId": "getUserOrders",
-"parameters": [
-{
- "name": "id",
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Mini Project 3",
+    "description": "My Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8081",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Fashion-DB",
+      "description": "API for a fashion database"
+    },
+    {
+      "name": "Shipments",
+      "description": "API for managing shipments"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/users/all-orders/{id}": {
+      "get": {
+        "tags": ["Fashion-DB"],
+        "summary": "Get orders for a user",
+        "operationId": "getUserOrders",
+        "parameters": [
+          {
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "integer",
             "description": "The ID of the user whose orders you want to retrieve (currently only have 13 and 14 seeded)"
-}
-],
-   "responses": {
+          }
+        ],
+        "responses": {
           "200": {
             "description": "A list of orders for the specified user",
             "schema": {
@@ -71,79 +73,207 @@
         }
       }
     },
-     "/users/create": {
-    "post": {
-      "tags": [
-        "Fashion-DB"
-      ],
-      "summary": "Create a new user",
-      "operationId": "createUser",
-      "parameters": [
-        {
-          "name": "body",
-          "in": "body",
-          "required": true,
-          "description": "User object that needs to be added to the database",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "firstName": {
-                "type": "string",
-                "example": "Jane"
-              },
-              "lastName": {
-                "type": "string",
-                "example": "Doe"
-              },
-              "email":{
-                "type":"string",
-                "example":"someEmail@email.com"
-              },
-              "password": {
-                "type": "string",
-                "example": "securepassword123"
-              },
-              "phone":{
-                "type":"string",
-                "example":"0412345678"
-              },
-              "address":{
-                "type":"string",
-                "example":"123 John lane, Johnville, 1111"
+    "/users/create": {
+      "post": {
+        "tags": ["Fashion-DB"],
+        "summary": "Create a new user",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "User object that needs to be added to the database",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "Jane"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "someEmail@email.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "securepassword123"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "0412345678"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "123 John Lane, Johnville, 1111"
+                }
               }
             }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User successfully created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "integer",
+                  "example": 15
+                },
+                "username": {
+                  "type": "string",
+                  "example": "fashionista123"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
-      ],
-      "responses": {
-        "201": {
-          "description": "User successfully created",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "userId": {
-                "type": "integer",
-                "example": 15
-              },
-              "username": {
-                "type": "string",
-                "example": "fashionista123"
+      }
+    },
+    "/shipments/{id}": {
+      "put": {
+        "tags": ["Shipments"],
+        "summary": "Update shipment details",
+        "description": "Update the carrier, tracking number, and shipped date for a specific shipment.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the shipment to update",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Shipment details to update",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "carrier": {
+                  "type": "string",
+                  "example": "FedEx"
+                },
+                "tracking_number": {
+                  "type": "string",
+                  "example": "123456789"
+                },
+                "shipped_date": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2024-12-14"
+                }
               }
             }
           }
-        },
-        "400": {
-          "description": "Invalid input"
-        },
-        "500": {
-          "description": "Internal server error"
+        ],
+        "responses": {
+          "200": {
+            "description": "Shipment updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": { "type": "integer", "example": 200 },
+                "message": { "type": "string", "example": "Shipment details updated successfully" },
+                "data": { "type": "object" }
+              }
+            }
+          },
+          "404": {
+            "description": "Shipment not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/shipments/{id}/status": {
+      "put": {
+        "tags": ["Shipments"],
+        "summary": "Update shipment status and deactivate order if delivered",
+        "description": "Update the status of a shipment. If the status is 'delivered', the associated order will be marked as inactive.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the shipment to update",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Status to update",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "deliveryStatus": {
+                  "type": "string",
+                  "example": "delivered"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shipment status updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": { "type": "integer", "example": 200 },
+                "data": { "type": "object" }
+              }
+            }
+          },
+          "404": {
+            "description": "Shipment not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/shipments/pending": {
+      "get": {
+        "tags": ["Shipments"],
+        "summary": "Get count of pending shipments",
+        "description": "Retrieve the total number of shipments with a status of 'Pending'.",
+        "responses": {
+          "200": {
+            "description": "Pending shipments count retrieved successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": { "type": "integer", "example": 200 },
+                "data": { "type": "integer", "example": 5 }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
         }
       }
     }
   }
-
-     
-  }
-
-  
 }

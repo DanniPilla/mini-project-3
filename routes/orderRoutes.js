@@ -6,6 +6,10 @@ router.get("/", (req, res) => {
   Controllers.orderController.getOrders(res);
 });
 
+router.get("/total-revenue", (req, res) => {
+  Controllers.orderController.getTotalRevenue(req, res);
+});
+
 router.post("/create", (req, res) => {
   Controllers.orderController.createOrder(req.body, res);
 });
